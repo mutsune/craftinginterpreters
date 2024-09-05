@@ -65,6 +65,3 @@ public class Lox {
         hadError = true;
     }
 }
-
-record Token(String value) {
-}
