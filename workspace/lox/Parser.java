@@ -1,5 +1,6 @@
 package lox;
 
+import java.util.ArrayList;
 import java.util.List;
 import static lox.TokenType.*;
 
@@ -15,16 +16,61 @@ class Parser {
         this.tokens = tokens;
     }
 
-    Expr parse() {
-        try {
-            return expression();
-        } catch (ParseError error) {
-            return null;
+    List<Stmt> parse() {
+        List<Stmt> statement = new ArrayList<>();
+        while (!isAtEnd()) {
+            statement.add(declaration());
         }
+
+        return statement;
     }
 
     private Expr expression() {
         return equality();
+    }
+
+    private Stmt declaration() {
+        try {
+            if (match(VAR)) {
+                return varDeclaration();
+            }
+            return statement();
+        } catch (ParseError error) {
+            synchronize();
+            return null;
+        }
+    }
+
+    private Stmt statement() {
+        if (match(PRINT)) {
+            return printStatement();
+        }
+
+        return expressionStatement();
+    }
+
+    private Stmt printStatement() {
+        Expr value = expression();
+        consume(SEMICOLON, "Expect ';' after value.");
+        return new Stmt.Print(value);
+    }
+
+    private Stmt varDeclaration() {
+        Token name = consume(IDENTIFIER, "Expect variable name.");
+
+        Expr initializer = null;
+        if (match(EQUAL)) {
+            initializer = expression();
+        }
+
+        consume(SEMICOLON, "Expect ';' after varialbe declaration.");
+        return new Stmt.Var(name, initializer);
+    }
+
+    private Stmt expressionStatement() {
+        Expr expr = expression();
+        consume(SEMICOLON, "Expect ';' after expression.");
+        return new Stmt.Expression(expr);
     }
 
     private Expr equality() {
@@ -135,6 +181,10 @@ class Parser {
             return new Expr.Literal(previous().literal);
         }
 
+        if (match(IDENTIFIER)) {
+            return new Expr.Variable(previous());
+        }
+
         if (match(LEFT_PAREN)) {
             Expr expr = expression();
             consume(RIGHT_PAREN, "Expect ')' after expression.");
@@ -156,7 +206,7 @@ class Parser {
         Lox.error(token, message);
         return new ParseError();
     }
-    
+
     private void synchronize() {
         advance();
         while (!isAtEnd()) {
@@ -173,7 +223,7 @@ class Parser {
                 case WHILE:
                 case PRINT:
                 case RETURN:
-                  return;
+                    return;
             }
 
             advance();
