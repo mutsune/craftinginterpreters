@@ -1,7 +1,5 @@
 package lox;
 
-import lox.Expr.Assign;
-
 class AstPrinter implements Expr.Visitor<String> {
 
     String print(Expr expr) {
@@ -62,8 +60,14 @@ class AstPrinter implements Expr.Visitor<String> {
     }
 
     @Override
-    public String visitAssignExpr(Assign expr) {
+    public String visitAssignExpr(Expr.Assign expr) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'visitAssignExpr'");
+    }
+
+    @Override
+    public String visitLogicalExpr(Expr.Logical expr) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'visitLogicalExpr'");
     }
 }
