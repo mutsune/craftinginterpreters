@@ -136,7 +136,11 @@ class Scanner {
         if (isAtEnd()) {
             return false;
         }
-        return source.charAt(current) == expected;
+        if (source.charAt(current) != expected) {
+            return false;
+        }
+        current++;
+        return true;
     }
 
     private char peek() {
