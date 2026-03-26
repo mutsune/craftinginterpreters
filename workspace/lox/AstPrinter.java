@@ -12,11 +12,6 @@ class AstPrinter implements Expr.Visitor<String> {
     }
 
     @Override
-    public String visitGetExpr(Expr.Get expr) {
-        return parenthesize(".", expr.object);
-    }
-
-    @Override
     public String visitGroupingExpr(Expr.Grouping expr) {
         return parenthesize("group", expr.expression);
     }
@@ -80,4 +75,17 @@ class AstPrinter implements Expr.Visitor<String> {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'visitLogicalExpr'");
     }
+
+    @Override
+    public String visitGetExpr(Expr.Get expr) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'visitGetExpr'");
+    }
+
+    @Override
+    public String visitSetExpr(Expr.Set expr) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'visitSetExpr'");
+    }
+
 }
