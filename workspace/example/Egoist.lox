@@ -1,0 +1,8 @@
+class Egoist {
+    speak() {
+        print this;
+    }
+}
+
+var method = Egoist().speak;
+method();

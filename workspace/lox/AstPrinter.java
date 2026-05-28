@@ -1,5 +1,7 @@
 package lox;
 
+import lox.Expr.This;
+
 class AstPrinter implements Expr.Visitor<String> {
 
     String print(Expr expr) {
@@ -86,6 +88,12 @@ class AstPrinter implements Expr.Visitor<String> {
     public String visitSetExpr(Expr.Set expr) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'visitSetExpr'");
+    }
+
+    @Override
+    public String visitThisExpr(This expr) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'visitThisExpr'");
     }
 
 }

@@ -1,0 +1,12 @@
+class Think {
+  getCallback() {
+    fun localFunction() {
+      print this;
+    }
+
+  return localFunction;
+  }
+}
+
+var callback = Think().getCallback();
+callback();
